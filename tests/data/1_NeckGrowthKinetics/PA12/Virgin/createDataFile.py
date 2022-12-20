@@ -31,6 +31,7 @@ header = "time, a_R"
 #Experiment Number 91B: R_mean: 32.1 [micro m]
 Exp91D_Rmean = np.array([3.210e-5])
 Exp91D_t = np.array([0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.5, 5.5, 7.5, 9.5, 12.5, 15.5])
+
 Exp91D_aR = np.array([0.000, 0.402, 0.503, 0.603, 0.754, 0.855, 0.939, 1.006, 1.089, 1.156, 1.223, 1.274, 1.274, 1.274])
 
 #Experiment Number 21: R_mean: 32.16 [micro m]

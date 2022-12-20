@@ -4,7 +4,6 @@ import matplotlib.pylab as plt
 from typing import List, Callable
 from sklearn.mixture import BayesianGaussianMixture
 
-
 def startSimulations(platform, software, tableName, fileName):
     # platform desktop, aws or rcg    # software so far only yade
     argument = tableName + " " + fileName
@@ -419,20 +418,42 @@ def plot_posterior(fig_name, param_names, param_data, posterior, savefig=0):
 
 
 def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
+    # For plotting
+
     num = len(param_names)
     ncols = int(np.ceil(num / 2))
     num = num - 1
     num_iter = len(param_data_list)
+    plot_colors = ['darkred', 'darkblue','darkviolet', 'darkorange' ,'darkgray','darkcyan','darkgreen']
+    # plot_shapes = ['+', 'v', 's', 'P', 'd', '*', 'o']
+    newNames = ['C_1 \ [ 1/ $(Pa s)$ ]', '\gamma \ [ $mN/m$]', 'k_1 \ [$N/m$]', 'k_{conv} \ [$W/(m K)$]','\epsilon \ [-]']
+    # markercoloredges = ['black', 'white', 'white', 'violet', 'white', 'blue', 'green']
+    alphaFade = [0.6,0.65,0.7,0.75,8.0,8.5,1.0]
     plt.figure('Resampling the parameter space')
     for j in range(num):
-        plt.subplot(2, ncols, j + 1)
+        plt.subplot(2, 2, j + 1)
         for i in range(num_iter):
-            plt.plot(param_data_list[i][:, j], param_data_list[i][:, j + 1], 'o', label='iterNo. %.2i' % i)
-            plt.xlabel(r'$' + param_names[j] + '$')
-            plt.ylabel(r'$' + param_names[j + 1] + '$')
-            plt.legend()
-        plt.legend()
+            plt.plot(param_data_list[i][:, j],param_data_list[i][:, j + 1],'o',color=plot_colors[i],markeredgecolor='white', label='i.%.1i' % i)
+            plt.xlabel(r'$' + newNames[j] + '$')
+            plt.ylabel(r'$' + newNames[j + 1] + '$')
+            # plt.legend()
+            if i == 6:
+                plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5),
+                fancybox=False)
+        # handles, labels = ax.get_legend_handles_labels()
+        # plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.4),ncol=7)
+
+        pgf_with_rc_fonts = {
+            "font.family": "sans-serif",
+            "font.sans-serif": "Helvetica",
+        }
+
+
+        plt.rcParams.update(pgf_with_rc_fonts)
+
+        plt.ticklabel_format(axis="both", style="sci", scilimits=(0,0))
         plt.tight_layout()
+        plt.grid(True)
     if savefig:
         plt.savefig(f'{fig_name}_param_space.png')
     else:

@@ -21,7 +21,7 @@ def run_sim(model, **kwargs):
 
 calibration = CalibrationToolbox.from_dict(
     {
-        "num_iter": 4,
+        "num_iter": 6,
         "model": {
             "param_mins": [0.1, 0.0000001],
             "param_maxs": [100, 1],
@@ -33,11 +33,11 @@ calibration = CalibrationToolbox.from_dict(
             "sim_name": 'Test',
             "sim_data_dir": './tutorials/1_NeckGrowthKinetics/PA12/',
             "sim_data_file_ext": '.txt',
-            "sigma_tol": 0.01,
+            "sigma_tol": 0.1,
             "callback": run_sim,
         },
         "calibration": {
-            "inference": {"ess_target": 0.3},
+            "inference": {"ess_target": 0.8},
             "sampling": {
                 "max_num_components": 2,
                 "n_init": 1,

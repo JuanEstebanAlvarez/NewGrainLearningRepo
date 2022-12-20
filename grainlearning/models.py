@@ -492,7 +492,7 @@ class IOModel(Model):
 
             params = [data[key] for key in self.param_names]
             if not (np.abs((params - self.param_data[i, :])
-                           / self.param_data[i, :] < 1e-5).all()):
+                           / self.param_data[i, :] < 1e-2).all()):
                 raise RuntimeError(
                     "Parameters [" + ", ".join(
                         ["%s" % v for v in self.param_data[i, :]])

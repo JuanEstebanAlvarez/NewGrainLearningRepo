@@ -44,7 +44,7 @@ calibration = CalibrationToolbox.from_dict(
                 "cov_type": "full",
             }
         },
-        "save_fig": 1,
+        "save_fig": 0,
         "model_type": IOModel
     }
 )

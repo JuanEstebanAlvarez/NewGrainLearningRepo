@@ -3,6 +3,10 @@ import numpy as np
 import matplotlib.pylab as plt
 from typing import List, Callable
 from sklearn.mixture import BayesianGaussianMixture
+import seaborn as sns
+import matplotlib.tri as tri
+
+sns.set(style="white")
 
 def startSimulations(platform, software, tableName, fileName):
     # platform desktop, aws or rcg    # software so far only yade
@@ -420,26 +424,51 @@ def plot_posterior(fig_name, param_names, param_data, posterior, savefig=0):
 def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
     # For plotting
 
+    np.random.seed(19680801)
+    npts = 200
+    ngridx = 100
+    ngridy = 200
+
     num = len(param_names)
     ncols = int(np.ceil(num / 2))
     num = num - 1
     num_iter = len(param_data_list)
-    plot_colors = ['darkred', 'darkblue','darkviolet', 'darkorange' ,'darkgray','darkcyan','darkgreen']
+    plot_colors = ['red', 'blue','violet', 'orange' ,'gray','cyan','green']
     # plot_shapes = ['+', 'v', 's', 'P', 'd', '*', 'o']
     newNames = ['C_1 \ [ 1/ $(Pa s)$ ]', '\gamma \ [ $mN/m$]', 'k_1 \ [$N/m$]', 'k_{conv} \ [$W/(m K)$]','\epsilon \ [-]']
     # markercoloredges = ['black', 'white', 'white', 'violet', 'white', 'blue', 'green']
-    alphaFade = [0.6,0.65,0.7,0.75,8.0,8.5,1.0]
+    alphaFade = [0.04,0.05,0.06,0.062,0.063,0.64,0.65]
+
     plt.figure('Resampling the parameter space')
     for j in range(num):
         plt.subplot(2, 2, j + 1)
         for i in range(num_iter):
-            plt.plot(param_data_list[i][:, j],param_data_list[i][:, j + 1],'o',color=plot_colors[i],markeredgecolor='white', label='i.%.1i' % i)
+
+            # plt.plot(param_data_list[i][:, j],param_data_list[i][:, j + 1],'o',color=plot_colors[i],markersize=5.0,markeredgecolor='white',alpha=alphaFade[i])
+            data = {newNames[j]: param_data_list[i][:, j],
+                    newNames[j + 1]: param_data_list[i][:, j + 1]}
+
+
+            x = param_data_list[i][:, j]
+            y = param_data_list[i][:, j + 1]
+            z = (1 - x/2 + x**5 + y**3) * np.exp(-x**2 - y**2)
+
+            plt.tricontourf(x, y, z, levels=1, linewidths=1.0, linestyle='-',colors="black",alpha=alphaFade[i], label='i.%.1i' % i)
+
+            if i < 6:
+                plt.scatter(x = newNames[j], y = newNames[j + 1],s=0.7,data=data,color='blue')
+            else:
+                plt.scatter(x = newNames[j], y = newNames[j + 1],s=0.7,data=data,color='red')
+
+            # triang = tri.Triangulation(x, y)
+            # interpolator = tri.LinearTriInterpolator(triang, z)
+
             plt.xlabel(r'$' + newNames[j] + '$')
             plt.ylabel(r'$' + newNames[j + 1] + '$')
             # plt.legend()
-            if i == 6:
-                plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5),
-                fancybox=False)
+            # if i == 6:
+            #     plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5),
+            #     fancybox=False)
         # handles, labels = ax.get_legend_handles_labels()
         # plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.4),ncol=7)
 
@@ -455,7 +484,7 @@ def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
         plt.tight_layout()
         plt.grid(True)
     if savefig:
-        plt.savefig(f'{fig_name}_param_space.png')
+        plt.savefig(f'{fig_name}_param_space.png',rasterized=True)
     else:
         plt.show()
 

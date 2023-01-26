@@ -424,6 +424,9 @@ def plot_posterior(fig_name, param_names, param_data, posterior, savefig=0):
 def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
     # For plotting
 
+    #simulation = 1 #Selective sintering
+    simulation = 2 # Homogeneos sintering
+
     np.random.seed(19680801)
     npts = 200
     ngridx = 100
@@ -433,60 +436,120 @@ def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
     ncols = int(np.ceil(num / 2))
     num = num - 1
     num_iter = len(param_data_list)
-    plot_colors = ['red', 'blue','violet', 'orange' ,'gray','cyan','green']
-    # plot_shapes = ['+', 'v', 's', 'P', 'd', '*', 'o']
-    newNames = ['C_1 \ [ 1/ $(Pa s)$ ]', '\gamma \ [ $mN/m$]', 'k_1 \ [$N/m$]', 'k_{conv} \ [$W/(m K)$]','\epsilon \ [-]']
-    # markercoloredges = ['black', 'white', 'white', 'violet', 'white', 'blue', 'green']
-    alphaFade = [0.04,0.05,0.06,0.062,0.063,0.64,0.65]
 
-    plt.figure('Resampling the parameter space')
-    for j in range(num):
-        plt.subplot(2, 2, j + 1)
-        for i in range(num_iter):
+    if simulation == 1 :
+        plot_colors = ['red', 'blue','violet', 'orange' ,'gray','cyan','green']
+        # plot_shapes = ['+', 'v', 's', 'P', 'd', '*', 'o']
+        newNames = ['C_1 \ [ 1/ $(Pa s)$ ]', '\gamma \ [ $mN/m$]', 'k_1 \ [$N/m$]', 'k_{conv} \ [$W/(m K)$]','\epsilon \ [-]']
+        # markercoloredges = ['black', 'white', 'white', 'violet', 'white', 'blue', 'green']
+        alphaFade = [0.04,0.05,0.06,0.062,0.063,0.64,0.65]
 
-            # plt.plot(param_data_list[i][:, j],param_data_list[i][:, j + 1],'o',color=plot_colors[i],markersize=5.0,markeredgecolor='white',alpha=alphaFade[i])
-            data = {newNames[j]: param_data_list[i][:, j],
-                    newNames[j + 1]: param_data_list[i][:, j + 1]}
+        plt.figure('Resampling the parameter space')
+        for j in range(num):
+            plt.subplot(2, 2, j + 1)
+            for i in range(num_iter):
 
-
-            x = param_data_list[i][:, j]
-            y = param_data_list[i][:, j + 1]
-            z = (1 - x/2 + x**5 + y**3) * np.exp(-x**2 - y**2)
-
-            plt.tricontourf(x, y, z, levels=1, linewidths=1.0, linestyle='-',colors="black",alpha=alphaFade[i], label='i.%.1i' % i)
-
-            if i < 6:
-                plt.scatter(x = newNames[j], y = newNames[j + 1],s=0.7,data=data,color='blue')
-            else:
-                plt.scatter(x = newNames[j], y = newNames[j + 1],s=0.7,data=data,color='red')
-
-            # triang = tri.Triangulation(x, y)
-            # interpolator = tri.LinearTriInterpolator(triang, z)
-
-            plt.xlabel(r'$' + newNames[j] + '$')
-            plt.ylabel(r'$' + newNames[j + 1] + '$')
-            # plt.legend()
-            # if i == 6:
-            #     plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5),
-            #     fancybox=False)
-        # handles, labels = ax.get_legend_handles_labels()
-        # plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.4),ncol=7)
-
-        pgf_with_rc_fonts = {
-            "font.family": "sans-serif",
-            "font.sans-serif": "Helvetica",
-        }
+                # plt.plot(param_data_list[i][:, j],param_data_list[i][:, j + 1],'o',color=plot_colors[i],markersize=5.0,markeredgecolor='white',alpha=alphaFade[i])
+                data = {newNames[j]: param_data_list[i][:, j],
+                        newNames[j + 1]: param_data_list[i][:, j + 1]}
 
 
-        plt.rcParams.update(pgf_with_rc_fonts)
+                x = param_data_list[i][:, j]
+                y = param_data_list[i][:, j + 1]
+                z = (1 - x/2 + x**5 + y**3) * np.exp(-x**2 - y**2)
 
-        plt.ticklabel_format(axis="both", style="sci", scilimits=(0,0))
-        plt.tight_layout()
-        plt.grid(True)
-    if savefig:
-        plt.savefig(f'{fig_name}_param_space.png',rasterized=True)
+                plt.tricontourf(x, y, z, levels=1, linewidths=1.0, linestyle='-',colors="black",alpha=alphaFade[i], label='i.%.1i' % i)
+
+                if i < 6:
+                    plt.scatter(x = newNames[j], y = newNames[j + 1],s=0.7,data=data,color='blue')
+                else:
+                    plt.scatter(x = newNames[j], y = newNames[j + 1],s=0.7,data=data,color='red')
+
+                # triang = tri.Triangulation(x, y)
+                # interpolator = tri.LinearTriInterpolator(triang, z)
+
+                plt.xlabel(r'$' + newNames[j] + '$')
+                plt.ylabel(r'$' + newNames[j + 1] + '$')
+                # plt.legend()
+                # if i == 6:
+                #     plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5),
+                #     fancybox=False)
+            # handles, labels = ax.get_legend_handles_labels()
+            # plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.4),ncol=7)
+
+            pgf_with_rc_fonts = {
+                "font.family": "sans-serif",
+                "font.sans-serif": "Helvetica",
+            }
+
+
+            plt.rcParams.update(pgf_with_rc_fonts)
+
+            plt.ticklabel_format(axis="both", style="sci", scilimits=(0,0))
+            plt.tight_layout()
+            plt.grid(True)
+        if savefig:
+            plt.savefig(f'{fig_name}_param_space.png',rasterized=True)
+        else:
+            plt.show()
+    elif simulation == 2:
+        plot_colors = ['red', 'blue']
+        # plot_shapes = ['+', 'v', 's', 'P', 'd', '*', 'o']
+        newNames = ['C_1 \ [ 1/ $(Pa s)$ ]', '\gamma \ [ $mN/m$]']
+        # markercoloredges = ['black', 'white', 'white', 'violet', 'white', 'blue', 'green']
+        alphaFade = [0.04, 0.05]
+
+        plt.figure('Resampling the parameter space')
+        for j in range(num):
+            plt.subplot(2, 2, j + 1)
+            for i in range(num_iter):
+
+                # plt.plot(param_data_list[i][:, j],param_data_list[i][:, j + 1],'o',color=plot_colors[i],markersize=5.0,markeredgecolor='white',alpha=alphaFade[i])
+                data = {newNames[j]: param_data_list[i][:, j],
+                        newNames[j + 1]: param_data_list[i][:, j + 1]}
+
+                x = param_data_list[i][:, j]
+                y = param_data_list[i][:, j + 1]
+                z = (1 - x / 2 + x ** 5 + y ** 3) * np.exp(-x ** 2 - y ** 2)
+
+                plt.tricontourf(x, y, z, levels=1, linewidths=1.0, linestyle='-', colors="black", alpha=alphaFade[i],
+                                label='i.%.1i' % i)
+
+                if i < 3:
+                    plt.scatter(x=newNames[j], y=newNames[j + 1], s=0.7, data=data, color='blue')
+                else:
+                    plt.scatter(x=newNames[j], y=newNames[j + 1], s=0.7, data=data, color='red')
+
+                # triang = tri.Triangulation(x, y)
+                # interpolator = tri.LinearTriInterpolator(triang, z)
+
+                plt.xlabel(r'$' + newNames[j] + '$')
+                plt.ylabel(r'$' + newNames[j + 1] + '$')
+                # plt.legend()
+                # if i == 6:
+                #     plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5),
+                #     fancybox=False)
+            # handles, labels = ax.get_legend_handles_labels()
+            # plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.4),ncol=7)
+
+            pgf_with_rc_fonts = {
+                "font.family": "sans-serif",
+                "font.sans-serif": "Helvetica",
+            }
+
+            plt.rcParams.update(pgf_with_rc_fonts)
+
+            plt.ticklabel_format(axis="both", style="sci", scilimits=(0, 0))
+            plt.tight_layout()
+            plt.grid(True)
+        if savefig:
+            plt.savefig(f'{fig_name}_param_space.png', rasterized=True)
+        else:
+            plt.show()
     else:
-        plt.show()
+        "Define what you want to plot"
+
+
 
 
 def plot_obs_and_sim(fig_name, ctrl_name, obs_names, ctrl_data, obs_data, sim_data, posteriors, savefig=0):

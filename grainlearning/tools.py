@@ -497,11 +497,11 @@ def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
         # plot_shapes = ['+', 'v', 's', 'P', 'd', '*', 'o']
         newNames = ['C_1 \ [ 1/ $(Pa s)$ ]', '\gamma \ [ $mN/m$]']
         # markercoloredges = ['black', 'white', 'white', 'violet', 'white', 'blue', 'green']
-        alphaFade = [0.04, 0.05]
+        alphaFade = [0.04,0.05,0.06,0.062,0.063,0.64,0.65]
 
         plt.figure('Resampling the parameter space')
         for j in range(num):
-            plt.subplot(2, 2, j + 1)
+            # plt.subplot(1, 1, j + 1)
             for i in range(num_iter):
 
                 # plt.plot(param_data_list[i][:, j],param_data_list[i][:, j + 1],'o',color=plot_colors[i],markersize=5.0,markeredgecolor='white',alpha=alphaFade[i])
@@ -515,7 +515,7 @@ def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
                 plt.tricontourf(x, y, z, levels=1, linewidths=1.0, linestyle='-', colors="black", alpha=alphaFade[i],
                                 label='i.%.1i' % i)
 
-                if i < 3:
+                if i < 5:
                     plt.scatter(x=newNames[j], y=newNames[j + 1], s=0.7, data=data, color='blue')
                 else:
                     plt.scatter(x=newNames[j], y=newNames[j + 1], s=0.7, data=data, color='red')
@@ -542,10 +542,12 @@ def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
             plt.ticklabel_format(axis="both", style="sci", scilimits=(0, 0))
             plt.tight_layout()
             plt.grid(True)
+
         if savefig:
             plt.savefig(f'{fig_name}_param_space.png', rasterized=True)
         else:
             plt.show()
+            plt.savefig(f'{fig_name}_param_space.png', rasterized=True)
     else:
         "Define what you want to plot"
 

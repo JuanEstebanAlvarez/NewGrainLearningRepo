@@ -1,7 +1,7 @@
 from grainlearning import CalibrationToolbox
 from grainlearning.models import IOModel
 
-executable = './tutorials/2_Densification/2_2_HomogeneousSintering/PA12/Exec_S3_HomogeneousSintering'
+executable = './tutorials/2_Densification/2_2_HomogeneousSintering/PA12/Exec_S3_DensificationGL'
 def run_sim(model, **kwargs):
     from math import floor, log
     import os
@@ -19,7 +19,7 @@ def run_sim(model, **kwargs):
 
 calibration = CalibrationToolbox.from_dict(
     {
-        "num_iter": 3,
+        "num_iter": 5,
         "model": {
             "obs_data_file": 'Obs_Dilatometer_PA12.dat',
             "obs_names":['deltaL'],
@@ -27,9 +27,9 @@ calibration = CalibrationToolbox.from_dict(
             "sim_name": 'Test',
             "sim_data_dir": './tutorials/2_Densification/2_2_HomogeneousSintering/PA12/',
             "param_names": ['c', 'gamma'],
-            "param_mins": [0.1, 0.002],
-            "param_maxs": [120, 0.006],
-            "num_samples": 40,
+            "param_mins": [0.00011, 0.0022],
+            "param_maxs": [0.0021, 0.0053],
+            "num_samples": 80,
             "sim_data_file_ext": '.txt',
             "sigma_tol": 0.001,
             "callback": run_sim,

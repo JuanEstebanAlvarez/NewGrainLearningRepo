@@ -105,7 +105,7 @@ NewTimeNet = (timeNetzch-130)/1000
 plt.plot(NewTimeJuan,ShrinkageJuan,'-x',color ='red',label= 'UT Dilatometer')
 plt.plot(NewTimeNet,ShrinkageNetzch,'-o',color = 'red',label= 'Netzsch Dilatometer')
 
-SpecificTime = np.linspace(0.0,0.03,142)
+SpecificTime = np.linspace(0.0,0.03,145)
 
 
 tck = interpolate.splrep(NewTimeJuan, ShrinkageJuan, s=1)

@@ -27,9 +27,9 @@ calibration = CalibrationToolbox.from_dict(
             "sim_name": 'Test',
             "sim_data_dir": './tutorials/2_Densification/2_2_HomogeneousSintering/PA12/',
             "param_names": ['c', 'gamma'],
-            "param_mins": [0.00011, 0.0022],
-            "param_maxs": [0.0021, 0.0053],
-            "num_samples": 80,
+            "param_mins": [0.0011, 0.022],
+            "param_maxs": [0.011, 0.053],
+            "num_samples": 50,
             "sim_data_file_ext": '.txt',
             "sigma_tol": 0.001,
             "callback": run_sim,
@@ -43,7 +43,7 @@ calibration = CalibrationToolbox.from_dict(
                 "cov_type": "full",
             }
         },
-        "save_fig": 0,
+        "save_fig": 1,
         "model_type": IOModel
     }
 )

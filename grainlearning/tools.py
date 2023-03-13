@@ -495,7 +495,7 @@ def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
     elif simulation == 2:
         plot_colors = ['red', 'blue']
         # plot_shapes = ['+', 'v', 's', 'P', 'd', '*', 'o']
-        newNames = ['C_1 \ [ 1/ $(Pa s)$ ]', '\gamma \ [ $mN/m$]']
+        newNames = ['C_1 \ [$Pa$^{-1} $s$^{-1}) ]', '\gamma \ [ $N/m$]']
         # markercoloredges = ['black', 'white', 'white', 'violet', 'white', 'blue', 'green']
         alphaFade = [0.04,0.05,0.06,0.062,0.063,0.64,0.65]
 
@@ -545,9 +545,10 @@ def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
 
         if savefig:
             plt.savefig(f'{fig_name}_param_space.png', rasterized=True)
-        else:
             plt.show()
+        else:
             plt.savefig(f'{fig_name}_param_space.png', rasterized=True)
+            plt.show()
     else:
         "Define what you want to plot"
 

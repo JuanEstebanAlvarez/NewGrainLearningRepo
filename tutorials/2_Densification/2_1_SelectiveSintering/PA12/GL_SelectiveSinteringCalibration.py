@@ -28,15 +28,15 @@ calibration = CalibrationToolbox.from_dict(
             "sim_name": 'Test',
             "sim_data_dir": './tutorials/2_Densification/2_1_SelectiveSintering/PA12/',
             "param_names": ['c', 'gamma','k', 'k_c','emiss'],
-            "param_mins": [0.1, 0.002, 0.000001, 300, 0.1],
-            "param_maxs": [120, 0.006, 0.0000015, 1000, 1],
-            "num_samples": 70,
+            "param_mins": [0.0011, 0.021, 0.000123, 300, 0.1],
+            "param_maxs": [0.011, 0.051, 0.00321, 1000, 1],
+            "num_samples": 30,
             "sim_data_file_ext": '.txt',
             "sigma_tol": 0.001,
             "callback": run_sim,
         },
         "calibration": {
-            "inference": {"ess_target": 0.3},
+            "inference": {"ess_target": 0.30},
             "sampling": {
                 "max_num_components": 2,
                 "n_init": 1,
@@ -44,7 +44,7 @@ calibration = CalibrationToolbox.from_dict(
                 "cov_type": "full",
             }
         },
-        "save_fig": 0,
+        "save_fig": 1,
         "model_type": IOModel
     }
 )
@@ -54,7 +54,7 @@ calibration.run()
 most_prob_params = calibration.get_most_prob_params()
 print(f'Most probable parameter values: {most_prob_params}')
 
-error_tolerance = 0.4
+error_tolerance = 0.04
 #
 # error = most_prob_params - [50,0.003,0.0001,1000,0.1]
 # assert abs(

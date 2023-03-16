@@ -424,8 +424,8 @@ def plot_posterior(fig_name, param_names, param_data, posterior, savefig=0):
 def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
     # For plotting
 
-    #simulation = 1 #Selective sintering
-    simulation = 2 # Homogeneos sintering
+    simulation = 1 #Selective sintering
+    # simulation = 2 # Homogeneos sintering
 
     np.random.seed(19680801)
     npts = 200
@@ -438,11 +438,11 @@ def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
     num_iter = len(param_data_list)
 
     if simulation == 1 :
-        plot_colors = ['red', 'blue','violet', 'orange' ,'gray','cyan','green']
+        plot_colors = ['firebrick', 'blue','purple', 'orange' ,'grey','darkgreen','cyan']
         # plot_shapes = ['+', 'v', 's', 'P', 'd', '*', 'o']
-        newNames = ['C_1 \ [ 1/ $(Pa s)$ ]', '\gamma \ [ $mN/m$]', 'k_1 \ [$N/m$]', 'k_{conv} \ [$W/(m K)$]','\epsilon \ [-]']
+        newNames = ['C_1 \ [ 1/ $(Pa s)$ ]', '\gamma \ [ $N/m$]', 'k_1 \ [$N/m$]', 'k_{conv} \ [$W/(m K)$]','\epsilon \ [-]']
         # markercoloredges = ['black', 'white', 'white', 'violet', 'white', 'blue', 'green']
-        alphaFade = [0.04,0.05,0.06,0.062,0.063,0.64,0.65]
+        alphaFade = [0.04,0.05,0.055,0.056,0.057,0.058,0.059]
 
         plt.figure('Resampling the parameter space')
         for j in range(num):
@@ -458,7 +458,7 @@ def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
                 y = param_data_list[i][:, j + 1]
                 z = (1 - x/2 + x**5 + y**3) * np.exp(-x**2 - y**2)
 
-                plt.tricontourf(x, y, z, levels=1, linewidths=1.0, linestyle='-',colors="black",alpha=alphaFade[i], label='i.%.1i' % i)
+                plt.tricontourf(x, y, z, levels=1, linewidths=1.0, linestyle='-',colors=plot_colors[i],alpha=alphaFade[i], label='i.%.1i' % i)
 
                 if i < 6:
                     plt.scatter(x = newNames[j], y = newNames[j + 1],s=0.7,data=data,color='blue')
@@ -470,6 +470,7 @@ def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
 
                 plt.xlabel(r'$' + newNames[j] + '$')
                 plt.ylabel(r'$' + newNames[j + 1] + '$')
+
                 # plt.legend()
                 # if i == 6:
                 #     plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5),
@@ -490,6 +491,7 @@ def plot_param_data(fig_name, param_names, param_data_list, savefig=0):
             plt.grid(True)
         if savefig:
             plt.savefig(f'{fig_name}_param_space.png',rasterized=True)
+            plt.show()
         else:
             plt.show()
     elif simulation == 2:
